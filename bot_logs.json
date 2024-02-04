@@ -1,0 +1,5 @@
+"2024-02-05 03:17:27,699 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(527) - Start polling"
+"2024-02-05 03:17:27,787 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(341) - Run polling for bot @denis14101999_first_bot id=6249292999 - 'Billy_bot'"
+"2024-02-05 03:17:37,159 - [WARNING] - aiogram.dispatcher - (dispatcher.py)._signal_stop_polling(455) - Received SIGINT signal"
+"2024-02-05 03:17:37,161 - [INFO] - aiogram.dispatcher - (dispatcher.py)._polling(359) - Polling stopped for bot @denis14101999_first_bot id=6249292999 - 'Billy_bot'"
+"2024-02-05 03:17:37,161 - [INFO] - aiogram.dispatcher - (dispatcher.py).start_polling(554) - Polling stopped"

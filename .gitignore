@@ -1,0 +1,10 @@
+/bot_data/__pycache__
+/bot_commands/__pycache__
+/bot_messages/__pycache__
+/bot_functions/__pycache__
+/bot_functions/bitrix/__pycache__
+/keyboards/__pycache__
+/utils/__pycache__
+/utils/callbacks/__pycache__
+/utils/settings/__pycache__
+/utils/state/__pycache__
