@@ -24,7 +24,7 @@ async def dev_message_shutdown(bot: Bot):
 
 async def start_bot():
     load_dotenv()
-    token = os.getenv('TOKEN')
+    token = os.getenv('DEV_TOKEN')
     bot = Bot(token=token, parse_mode='MarkdownV2')
     await set_commands(bot)
     dp = Dispatcher()
