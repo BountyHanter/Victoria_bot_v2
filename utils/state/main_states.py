@@ -13,3 +13,4 @@ class Bitrix(StatesGroup):
     comment_to_discus = State()
     info = State()  # переменная чтобы хранить экземпляр класса информации о сделке для последующего его перенаса в кэш
     id_number = State()
+    new_link = State()

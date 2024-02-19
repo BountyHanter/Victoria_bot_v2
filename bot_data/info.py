@@ -10,3 +10,6 @@ class Info:
         self.deal_id = None
         self.company_name = None
         self.id_number = None
+
+
+

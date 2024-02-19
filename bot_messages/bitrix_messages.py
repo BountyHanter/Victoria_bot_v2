@@ -1,12 +1,14 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
+from bot_data.info import Info
+from bot_data.urls import update_client_url
 from bot_messages.bot_funny_answer import bot_responses
 from bot_functions.bitrix import add_contact, add_deal, add_company, add_comment_to_discussion
-from keyboards.inline import start_buttons, add_extra_comment
+from keyboards.inline import start_buttons, add_extra_comment, start_buttons_after_error
 from utils.state.main_states import Bitrix
 from bot_messages.bot_answer_text import contact_add_error, company_add_error, deal_add_error, deal_add_ok, \
-    comment_to_discus_add_error, comment_add_ok
+    comment_to_discus_add_error, comment_add_ok, new_link_ok
 
 
 async def say_something(message: Message):
@@ -88,7 +90,7 @@ async def bitrix_comment(message: Message, state: FSMContext):
     respond_contact_id = contact.send_request()  # Получаем результат создания контакта
     if respond_contact_id is None:
         # Ошибка при создании контакта
-        await message.answer(contact_add_error, reply_markup=start_buttons())
+        await message.answer(contact_add_error, reply_markup=start_buttons_after_error())
         return
 
     # Запускаем создание компании
@@ -128,3 +130,15 @@ async def comment_to_discussion(message: Message, state: FSMContext):
         return
     await state.clear()
     await message.answer(comment_add_ok, reply_markup=start_buttons())
+
+
+async def new_bitrix_link(message: Message, state: FSMContext):
+    info = Info()
+    await state.update_data(info=info) # Переносим экземпляр в машину состояний
+    await state.update_data(new_link=message.text)
+    get_data = await state.get_data()
+    info = get_data.get('info')
+    info.new_link = get_data.get('new_link')
+    await state.update_data(info=info)
+    update_client_url(info.new_link)
+    await message.answer(new_link_ok, reply_markup=start_buttons())

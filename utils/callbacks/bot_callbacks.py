@@ -33,3 +33,12 @@ async def not_comment(query: CallbackQuery, bot: Bot, state: FSMContext):
     await bot.edit_message_reply_markup(query.from_user.id, query.message.message_id)  # удаляем кнопку
     await query.answer()
     await query.message.answer('Хорошо, что нибудь еще?', reply_markup=start_buttons())
+
+
+async def new_link(query: CallbackQuery, bot: Bot, state: FSMContext):
+    await state.clear()
+    await bot.answer_callback_query(query.id)
+    await bot.edit_message_reply_markup(query.from_user.id, query.message.message_id)  # удаляем кнопку
+    await query.answer()
+    await state.set_state(Bitrix.new_link)
+    await query.message.answer('Понял, введи новую ссылку, возьми её из поля \- Вебхук для вызова rest api')

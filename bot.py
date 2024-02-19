@@ -1,3 +1,4 @@
+
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -6,7 +7,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart, Command
 
 from bot_messages import bitrix_messages as bm
-from utils.callbacks.bot_callbacks import start_bitrix, add_comment_to_discus, not_comment
+from utils.callbacks.bot_callbacks import start_bitrix, add_comment_to_discus, not_comment, new_link
 from utils.callbacks.callback_class_filter import MyCallback
 from utils.settings import bot_logger
 from bot_commands.commands import set_commands
@@ -24,7 +25,7 @@ async def dev_message_shutdown(bot: Bot):
 
 async def start_bot():
     load_dotenv()
-    token = os.getenv('DEV_TOKEN')
+    token = os.getenv('TOKEN')
     bot = Bot(token=token, parse_mode='MarkdownV2')
     await set_commands(bot)
     dp = Dispatcher()
@@ -32,11 +33,13 @@ async def start_bot():
 
     dp.startup.register(dev_message_startup)
     dp.shutdown.register(dev_message_shutdown)
+    # --------------------------------------------------
+    # Команды бота
     dp.message.register(start, CommandStart())
     dp.message.register(cancel, Command(commands='cancel'))
     # --------------------------------------------------
     # Заполнение сделки
-    dp.callback_query.register(start_bitrix, MyCallback.filter(F.foo == 'Bitrix24')) # Старт
+    dp.callback_query.register(start_bitrix, MyCallback.filter(F.foo == 'Bitrix24'))
     dp.message.register(bm.bitrix_name, Bitrix.name)
     dp.message.register(bm.bitrix_second_name, Bitrix.second_name)
     dp.message.register(bm.bitrix_company_name, Bitrix.company_name)
@@ -47,7 +50,10 @@ async def start_bot():
     dp.callback_query.register(add_comment_to_discus, MyCallback.filter(F.foo == 'add_comment_to_dicscussion'))
     dp.message.register(bm.comment_to_discussion, Bitrix.comment_to_discus)
     dp.callback_query.register(not_comment, MyCallback.filter(F.foo == 'not_add_comment_to_dicscussion'))
+    dp.callback_query.register(new_link, MyCallback.filter(F.foo == 'new_link_bitrix'))
+    dp.message.register(bm.new_bitrix_link, Bitrix.new_link)
     # --------------------------------------------------
+    # Обработка сообщений не связанных ни с какими функциями бота
     dp.message.register(bm.say_something)
 
     await bot.delete_webhook(drop_pending_updates=True)  # Удаляем сообщения которые получил бот до запуска

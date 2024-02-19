@@ -26,3 +26,16 @@ def add_extra_comment():
 
     )
     return builder.as_markup()
+
+
+def start_buttons_after_error():
+    builder = InlineKeyboardBuilder()
+    builder.row(
+        InlineKeyboardButton(
+            text='Создать сделку',
+            callback_data=MyCallback(foo='Bitrix24').pack()),
+        InlineKeyboardButton(
+            text='Изменить ссылку на Bitrix24',
+            callback_data=MyCallback(foo='new_link_bitrix').pack()),
+        )
+    return builder.as_markup()
